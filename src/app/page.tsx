@@ -1,39 +1,68 @@
-import { Button } from '@/components/ui/button'
+import { BannerCarousel } from "@/components/banner-carousel"
+import type { BannerItem } from "@/../types/banner"
+
+const bannerItems: BannerItem[] = [
+  {
+    id: "1",
+    title: "创新科技，引领未来",
+    description: "我们致力于为您提供最前沿的技术解决方案，让科技改变生活。",
+    notification: {
+      text: "新产品发布会即将开始",
+      link: "#",
+      linkText: "立即预约",
+    },
+    buttons: {
+      primary: "开始体验",
+      secondary: "了解更多",
+    },
+    background: {
+      imageUrl: "/placeholder.svg", // 替换为实际的图片URL
+      overlay: "rgba(0, 0, 0, 0.4)", // 添加半透明遮罩确保文字可读
+    },
+  },
+  {
+    id: "2",
+    title: "智能办公，效率倍增",
+    description: "通过智能化办公系统，提升团队协作效率，实现业务增长。",
+    notification: {
+      text: "免费试用进行中",
+      link: "#",
+      linkText: "立即申请",
+    },
+    buttons: {
+      primary: "免费试用",
+      secondary: "查看案例",
+    },
+    background: {
+      imageUrl: "/placeholder.svg",
+      overlay: "rgba(0, 0, 0, 0.4)",
+    },
+  },
+  {
+    id: "3",
+    title: "数据驱动，洞见未来",
+    description: "利用大数据分析，助您做出更明智的商业决策。",
+    notification: {
+      text: "新功能上线公告",
+      link: "#",
+      linkText: "查看详情",
+    },
+    buttons: {
+      primary: "预约演示",
+      secondary: "技术文档",
+    },
+    background: {
+      imageUrl: "/placeholder.svg",
+      overlay: "rgba(0, 0, 0, 0.4)",
+    },
+  },
+]
 
 export default function Home() {
   return (
     <div className="bg-white">
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        >
-        </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-48 animate-fade-up">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-              这是一条通知{' '}
-              <a href="#" className="font-semibold text-slate-600">
-                <span aria-hidden="true" className="absolute inset-0" />
-                阅读更多 <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
-          <div className="text-center">
-            <h1 className="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
-              slogan
-            </h1>
-            <p className="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
-              Hurr durr, Im'a greate place holder
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button>按钮</Button>
-              <Button variant="secondary">按钮的跟班</Button>
-            </div>
-          </div>
-        </div>
-        
-      </div>
+      <BannerCarousel items={bannerItems} />
     </div>
   )
 }
+
