@@ -1,6 +1,14 @@
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Cloud, Shield, Zap, Server, Globe, Lock } from 'lucide-react'
-import Image from "next/image"
+import { Button } from "@/components/ui/button";
+import {
+  ArrowRight,
+  Cloud,
+  Shield,
+  Zap,
+  Server,
+  Globe,
+  Lock,
+} from "lucide-react";
+import Image from "next/image";
 
 export default function Page() {
   return (
@@ -9,19 +17,26 @@ export default function Page() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-purple-600/20" />
         <div className="container relative z-10 mx-auto px-4 py-32 text-center">
-
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300 mb-8 animate-fade-up">
             重新定义云计算基础设施
           </h1>
           <p className="max-w-3xl mx-auto text-xl md:text-2xl text-gray-300 mb-12 animate-fade-up animation-delay-200">
-            Acme Cloud Platform 提供企业级云服务解决方案，让您的业务在数字时代保持领先
+            Acme Cloud Platform
+            提供企业级云服务解决方案，让您的业务在数字时代保持领先
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center items-center animate-fade-up animation-delay-300">
-            <Button size="lg" className="bg-purple-500 text-black hover:bg-purple-600">
+            <Button
+              size="lg"
+              className="bg-purple-500 text-black hover:bg-purple-600"
+            >
               开始使用
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="secondary" className="bg-white text-black hover:bg-gray-200">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-white text-black hover:bg-gray-200"
+            >
               预约演示
             </Button>
           </div>
@@ -30,7 +45,10 @@ export default function Page() {
       </section>
 
       {/* 特性部分 */}
-      <section id="features" className="py-24 bg-gradient-to-b from-black to-gray-900">
+      <section
+        id="features"
+        className="py-24 bg-gradient-to-b from-black to-gray-900"
+      >
         <div className="container px-4">
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">
             为未来而构建的云平台
@@ -137,28 +155,35 @@ export default function Page() {
             我们的专业团队随时为您提供支持，帮助您实现业务数字化转型
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-purple-500 text-black hover:bg-purple-600">
+            <Button
+              size="lg"
+              className="bg-purple-500 text-black hover:bg-purple-600"
+            >
               立即咨询
             </Button>
-            <Button size="lg" variant="outline" className="bg-white text-black hover:bg-gray-200">
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white text-black hover:bg-gray-200"
+            >
               预约演示
             </Button>
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 // 特性卡片组件
 function FeatureCard({
   icon,
   title,
-  description
+  description,
 }: {
-  icon: React.ReactNode
-  title: string
-  description: string
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 }) {
   return (
     <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
@@ -166,17 +191,17 @@ function FeatureCard({
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-gray-400">{description}</p>
     </div>
-  )
+  );
 }
 
 function SolutionCard({
   image,
   title,
-  description
+  description,
 }: {
-  image: string
-  title: string
-  description: string
+  image: string;
+  title: string;
+  description: string;
 }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl">
@@ -192,18 +217,18 @@ function SolutionCard({
         <p className="text-gray-300">{description}</p>
       </div>
     </div>
-  )
+  );
 }
 
 // 客户评价卡片组件
 function TestimonialCard({
   quote,
   author,
-  title
+  title,
 }: {
-  quote: string
-  author: string
-  title: string
+  quote: string;
+  author: string;
+  title: string;
 }) {
   return (
     <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
@@ -213,5 +238,5 @@ function TestimonialCard({
         <p className="text-sm text-gray-400">{title}</p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,21 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useCarousel } from "../hooks/useCarousel"
-import type { BannerItem } from "@/../types/banner"
-import Image from "next/image"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCarousel } from "../hooks/useCarousel";
+import type { BannerItem } from "@/../types/banner";
+import Image from "next/image";
 
 interface BannerCarouselProps {
-  items: BannerItem[]
-  interval?: number
+  items: BannerItem[];
+  interval?: number;
 }
 
-export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) {
-  const { current, next, previous, goTo, setIsPlaying } = useCarousel(items.length, interval)
-  const [direction, setDirection] = useState(0)
+export function BannerCarousel({
+  items,
+  interval = 5000,
+}: BannerCarouselProps) {
+  const { current, next, previous, goTo, setIsPlaying } = useCarousel(
+    items.length,
+    interval,
+  );
+  const [direction, setDirection] = useState(0);
 
   // 文字动画变体
   const textVariants = {
@@ -39,7 +45,7 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
         delay: custom * 0.1,
       },
     }),
-  }
+  };
 
   // 内容容器动画变体
   const contentVariants = {
@@ -63,7 +69,7 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
         duration: 0.5,
       },
     },
-  }
+  };
 
   // 背景动画变体
   const backgroundVariants = {
@@ -84,17 +90,17 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
         ease: "easeIn",
       },
     },
-  }
+  };
 
   const handleNext = () => {
-    setDirection(1)
-    next()
-  }
+    setDirection(1);
+    next();
+  };
 
   const handlePrevious = () => {
-    setDirection(-1)
-    previous()
-  }
+    setDirection(-1);
+    previous();
+  };
 
   return (
     <div
@@ -130,13 +136,21 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
           exit="exit"
           className="relative z-10 mx-auto max-w-2xl py-32 sm:py-48 lg:py-48"
         >
-          <motion.div variants={textVariants} custom={0} className="hidden sm:mb-8 sm:flex sm:justify-center">
+          <motion.div
+            variants={textVariants}
+            custom={0}
+            className="hidden sm:mb-8 sm:flex sm:justify-center"
+          >
             {items[current].notification && (
               <div className="relative rounded-full px-3 py-1 text-sm/6 bg-white/80 backdrop-blur-sm text-gray-900 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                 {items[current].notification.text}{" "}
-                <a href={items[current].notification.link} className="font-semibold text-gray-900">
+                <a
+                  href={items[current].notification.link}
+                  className="font-semibold text-gray-900"
+                >
                   <span aria-hidden="true" className="absolute inset-0" />
-                  {items[current].notification.linkText} <span aria-hidden="true">&rarr;</span>
+                  {items[current].notification.linkText}{" "}
+                  <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             )}
@@ -156,11 +170,19 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
             >
               {items[current].description}
             </motion.p>
-            <motion.div variants={textVariants} custom={3} className="flex items-center justify-center gap-x-6">
+            <motion.div
+              variants={textVariants}
+              custom={3}
+              className="flex items-center justify-center gap-x-6"
+            >
               <Button size="lg" className="text-lg">
                 {items[current].buttons.primary}
               </Button>
-              <Button size="lg" variant="secondary" className="text-lg bg-white/20 backdrop-blur-sm hover:bg-white/30">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-lg bg-white/20 backdrop-blur-sm hover:bg-white/30"
+              >
                 {items[current].buttons.secondary}
               </Button>
             </motion.div>
@@ -195,13 +217,12 @@ export function BannerCarousel({ items, interval = 5000 }: BannerCarouselProps) 
             key={index}
             className={`h-2 rounded-full transition-all ${index === current ? "w-8 bg-white" : "w-2 bg-white/50"}`}
             onClick={() => {
-              setDirection(index > current ? 1 : -1)
-              goTo(index)
+              setDirection(index > current ? 1 : -1);
+              goTo(index);
             }}
           />
         ))}
       </div>
     </div>
-  )
+  );
 }
-
