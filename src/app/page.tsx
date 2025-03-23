@@ -31,8 +31,8 @@ const bannerItems: BannerItem[] = [
       secondary: "了解更多",
     },
     background: {
-      imageUrl: "/placeholder.svg", // 替换为实际的图片URL
-      overlay: "rgba(0, 0, 0, 0.4)", // 添加半透明遮罩确保文字可读
+      imageUrl: "https://chuqiyun.com/themes/web/Loli/assets/video/2.mp4", // 替换为实际的图片URL
+      overlay: "rgba(0, 0, 0, 0.1)", // 添加半透明遮罩确保文字可读
     },
   },
   {
