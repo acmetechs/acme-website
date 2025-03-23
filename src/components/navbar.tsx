@@ -1,19 +1,21 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
-import { XIcon, MenuIcon, ShieldIcon } from "lucide-react";
 import {
+  MenuIcon,
+  ShieldIcon,
   Cloud,
   Server,
   Lock,
   Database,
   HardDrive,
   Globe,
-  ChevronDown,
   Github,
   MessageSquare,
   Users,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -40,7 +42,6 @@ export default function NavBar() {
     { name: "About", href: "#" },
   ];
 
-  // 完整产品数据
   const products = [
     {
       name: "QimenIDC",
@@ -80,7 +81,6 @@ export default function NavBar() {
     },
   ];
 
-  // 服务数据
   const services = [
     {
       name: "初七云",
@@ -96,7 +96,6 @@ export default function NavBar() {
     },
   ];
 
-  // 支持数据
   const support = [
     {
       name: "GitHub",
@@ -118,118 +117,166 @@ export default function NavBar() {
     },
   ];
 
+  // 移动端菜单状态管理
+  const [mobileMenuState, setMobileMenuState] = useState({
+    products: false,
+    services: false,
+    support: false,
+  });
+
+  const toggleMobileMenu = (menu: keyof typeof mobileMenuState) => {
+    setMobileMenuState(prev => ({
+      ...prev,
+      [menu]: !prev[menu]
+    }));
+  };
+
   return (
-    <header className="absolute inset-x-0 top-0 z-50 bg-white shadow-sm">
-      <nav
-        aria-label="Global"
-        className="flex items-center justify-between p-6 lg:px-8"
-      >
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         {/* Logo */}
-        <div className="flex lg:w-1/4 justify-start">
+        <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-lg font-semibold">Acme Cloud</span>
+            <span className="text-xl font-bold tracking-tight text-gray-900">
+              Acme Cloud
+            </span>
           </Link>
         </div>
 
-        {/* 移动端菜单 */}
+        {/* 移动端菜单按钮 */}
         <div className="flex lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="-m-2.5 p-2.5 text-gray-700"
+                className="text-gray-700 hover:bg-gray-100"
               >
                 <MenuIcon className="h-6 w-6" />
                 <span className="sr-only">打开主菜单</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-sm">
+
+            <SheetContent side="right" className="w-full sm:max-w-sm flex flex-col">
               <VisuallyHidden>
                 <SheetTitle>导航菜单</SheetTitle>
               </VisuallyHidden>
 
-              <div className="mt-6 flow-root">
-                <div className="-my-6 divide-y divide-gray-500/10">
-                  <div className="space-y-2 py-6">
-                    {/* 完整产品菜单 */}
-                    <div className="space-y-2">
-                      <div className="-mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                        <span>产品</span>
-                        <ChevronDown className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="pl-4 space-y-2">
+              {/* 可滚动区域 */}
+              <div className="flex-1 overflow-y-auto py-4">
+                <div className="space-y-6">
+                  {/* 产品菜单 */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => toggleMobileMenu('products')}
+                      className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
+                    >
+                      <span className="font-medium">产品</span>
+                      {mobileMenuState.products ? (
+                        <ChevronUp className="h-5 w-5 text-gray-500" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-gray-500" />
+                      )}
+                    </button>
+                    {mobileMenuState.products && (
+                      <div className="space-y-2 pl-4">
                         {products.map((product) => (
                           <SheetClose asChild key={product.name}>
                             <Link
                               href={product.href}
-                              className="-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                              className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
                             >
-                              <product.icon className="h-5 w-5 text-blue-600" />
+                              <product.icon className="h-6 w-6 shrink-0 text-blue-600" />
                               <div>
                                 <div className="font-medium">{product.name}</div>
-                                <div className="text-xs text-gray-500">{product.description}</div>
+                                <div className="text-sm text-gray-500">
+                                  {product.description}
+                                </div>
                               </div>
                             </Link>
                           </SheetClose>
                         ))}
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    {/* 服务菜单 */}
-                    <div className="space-y-2">
-                      <div className="-mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                        <span>服务</span>
-                        <ChevronDown className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="pl-4 space-y-2">
+                  {/* 服务菜单 */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => toggleMobileMenu('services')}
+                      className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
+                    >
+                      <span className="font-medium">服务</span>
+                      {mobileMenuState.services ? (
+                        <ChevronUp className="h-5 w-5 text-gray-500" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-gray-500" />
+                      )}
+                    </button>
+                    {mobileMenuState.services && (
+                      <div className="space-y-2 pl-4">
                         {services.map((service) => (
                           <SheetClose asChild key={service.name}>
                             <Link
                               href={service.href}
-                              className="-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                              className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
                             >
-                              <service.icon className="h-5 w-5 text-blue-600" />
+                              <service.icon className="h-6 w-6 shrink-0 text-blue-600" />
                               <div>
                                 <div className="font-medium">{service.name}</div>
-                                <div className="text-xs text-gray-500">{service.description}</div>
+                                <div className="text-sm text-gray-500">
+                                  {service.description}
+                                </div>
                               </div>
                             </Link>
                           </SheetClose>
                         ))}
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    {/* 支持菜单 */}
-                    <div className="space-y-2">
-                      <div className="-mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                        <span>支持</span>
-                        <ChevronDown className="h-4 w-4 text-gray-500" />
-                      </div>
-                      <div className="pl-4 space-y-2">
+                  {/* 支持菜单 */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => toggleMobileMenu('support')}
+                      className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
+                    >
+                      <span className="font-medium">支持</span>
+                      {mobileMenuState.support ? (
+                        <ChevronUp className="h-5 w-5 text-gray-500" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-gray-500" />
+                      )}
+                    </button>
+                    {mobileMenuState.support && (
+                      <div className="space-y-2 pl-4">
                         {support.map((item) => (
                           <SheetClose asChild key={item.name}>
                             <Link
                               href={item.href}
-                              className="-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                              className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
                             >
-                              <item.icon className="h-5 w-5 text-blue-600" />
+                              <item.icon className="h-6 w-6 shrink-0 text-blue-600" />
                               <div>
                                 <div className="font-medium">{item.name}</div>
-                                <div className="text-xs text-gray-500">{item.description}</div>
+                                <div className="text-sm text-gray-500">
+                                  {item.description}
+                                </div>
                               </div>
                             </Link>
                           </SheetClose>
                         ))}
                       </div>
-                    </div>
+                    )}
+                  </div>
 
-                    {/* 常规导航链接 */}
+                  {/* 常规导航链接 */}
+                  <div className="space-y-2">
                     {navigation.map((item) => (
                       <SheetClose asChild key={item.name}>
                         <Link
                           href={item.href}
-                          className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                          className="block rounded-lg p-3 font-medium hover:bg-gray-100"
                         >
                           {item.name}
                         </Link>
@@ -243,120 +290,126 @@ export default function NavBar() {
         </div>
 
         {/* 桌面端导航 */}
-        <div className="hidden lg:flex lg:w-2/4 justify-center items-center">
-          <div className="flex items-center gap-x-8">
-            {/* 完整产品菜单 */}
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm/6 font-semibold text-gray-900 bg-transparent hover:bg-gray-50">
-                    产品
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid grid-cols-2 gap-3 p-4 md:w-[500px] lg:w-[600px]">
-                      {products.map((product) => (
-                        <NavigationMenuLink asChild key={product.name}>
-                          <Link
-                            href={product.href}
-                            className="flex items-center gap-3 rounded-md p-3 hover:bg-gray-50"
-                          >
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                              <product.icon className="h-6 w-6" />
+        <div className="hidden lg:flex lg:gap-x-12">
+          {/* 产品菜单 */}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-gray-900 hover:bg-gray-100">
+                  产品
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="p-4">
+                  <div className="grid w-[600px] grid-cols-2 gap-4">
+                    {products.map((product) => (
+                      <Link
+                        key={product.name}
+                        href={product.href}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink className="flex h-full items-start gap-4 rounded-lg p-4 hover:bg-gray-50">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                            <product.icon className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <div className="font-medium">{product.name}</div>
+                            <div className="text-sm text-gray-500">
+                              {product.description}
                             </div>
-                            <div>
-                              <h3 className="text-sm font-medium">
-                                {product.name}
-                              </h3>
-                              <p className="text-xs text-gray-500 line-clamp-2">
-                                {product.description}
-                              </p>
-                            </div>
-                          </Link>
+                          </div>
                         </NavigationMenuLink>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                      </Link>
+                    ))}
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
-            {/* 服务菜单 */}
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm/6 font-semibold text-gray-900 bg-transparent hover:bg-gray-50">
-                    服务
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 md:w-[400px]">
-                      {services.map((service) => (
-                        <NavigationMenuLink asChild key={service.name}>
-                          <Link
-                            href={service.href}
-                            className="flex items-center gap-3 rounded-md p-3 hover:bg-gray-50"
-                          >
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                              <service.icon className="h-6 w-6" />
+          {/* 服务菜单 */}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-gray-900 hover:bg-gray-100">
+                  服务
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="p-4">
+                  <div className="grid w-[400px] gap-2">
+                    {services.map((service) => (
+                      <Link
+                        key={service.name}
+                        href={service.href}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink className="flex items-center gap-4 rounded-lg p-4 hover:bg-gray-50">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                            <service.icon className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <div className="font-medium">{service.name}</div>
+                            <div className="text-sm text-gray-500">
+                              {service.description}
                             </div>
-                            <div>
-                              <h3 className="text-sm font-medium">{service.name}</h3>
-                              <p className="text-xs text-gray-500">{service.description}</p>
-                            </div>
-                          </Link>
+                          </div>
                         </NavigationMenuLink>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                      </Link>
+                    ))}
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
-            {/* 支持菜单 */}
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-sm/6 font-semibold text-gray-900 bg-transparent hover:bg-gray-50">
-                    支持
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid gap-3 p-4 md:w-[400px]">
-                      {support.map((item) => (
-                        <NavigationMenuLink asChild key={item.name}>
-                          <Link
-                            href={item.href}
-                            className="flex items-center gap-3 rounded-md p-3 hover:bg-gray-50"
-                          >
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600">
-                              <item.icon className="h-6 w-6" />
+          {/* 支持菜单 */}
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold text-gray-900 hover:bg-gray-100">
+                  支持
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="p-4">
+                  <div className="grid w-[300px] gap-2">
+                    {support.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink className="flex items-center gap-4 rounded-lg p-4 hover:bg-gray-50">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                            <item.icon className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <div className="font-medium">{item.name}</div>
+                            <div className="text-sm text-gray-500">
+                              {item.description}
                             </div>
-                            <div>
-                              <h3 className="text-sm font-medium">{item.name}</h3>
-                              <p className="text-xs text-gray-500">{item.description}</p>
-                            </div>
-                          </Link>
+                          </div>
                         </NavigationMenuLink>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+                      </Link>
+                    ))}
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
-            {/* 常规导航链接 */}
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm/6 font-semibold text-gray-900 hover:text-gray-600"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+          {/* 常规导航链接 */}
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
 
         {/* 右侧空白区域 */}
-        <div className="hidden lg:flex lg:w-1/4 justify-end" />
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end" />
       </nav>
     </header>
   );
