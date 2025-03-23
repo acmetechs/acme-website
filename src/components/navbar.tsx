@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/button";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export default function NavBar() {
+  // 原始导航配置（完整保留）
   const navigation = [
     { name: "Member", href: "#" },
     { name: "Club", href: "#" },
@@ -117,24 +118,17 @@ export default function NavBar() {
     },
   ];
 
-  // 移动端菜单状态管理
-  const [mobileMenuState, setMobileMenuState] = useState({
-    products: false,
-    services: false,
-    support: false,
-  });
+  // 移动端菜单状态管理（改进后）
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
-  const toggleMobileMenu = (menu: keyof typeof mobileMenuState) => {
-    setMobileMenuState(prev => ({
-      ...prev,
-      [menu]: !prev[menu]
-    }));
+  const toggleMobileMenu = (menu: string) => {
+    setActiveMenu(prev => prev === menu ? null : menu);
   };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-        {/* Logo */}
+        {/* Logo 保持不变 */}
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="text-xl font-bold tracking-tight text-gray-900">
@@ -143,7 +137,7 @@ export default function NavBar() {
           </Link>
         </div>
 
-        {/* 移动端菜单按钮 */}
+        {/* 移动端菜单（改进后） */}
         <div className="flex lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
@@ -158,12 +152,12 @@ export default function NavBar() {
             </SheetTrigger>
 
             <SheetContent side="right" className="w-full sm:max-w-sm flex flex-col">
+              {/* 移动端菜单内容（完整保留交互逻辑） */}
               <VisuallyHidden>
                 <SheetTitle>导航菜单</SheetTitle>
               </VisuallyHidden>
-
-              {/* 可滚动区域 */}
               <div className="flex-1 overflow-y-auto py-4">
+                {/* 菜单项结构保持原始样式 */}
                 <div className="space-y-6">
                   {/* 产品菜单 */}
                   <div className="space-y-2">
@@ -172,16 +166,17 @@ export default function NavBar() {
                       className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
                     >
                       <span className="font-medium">产品</span>
-                      {mobileMenuState.products ? (
+                      {activeMenu === 'products' ? (
                         <ChevronUp className="h-5 w-5 text-gray-500" />
                       ) : (
                         <ChevronDown className="h-5 w-5 text-gray-500" />
                       )}
                     </button>
-                    {mobileMenuState.products && (
+                    {activeMenu === 'products' && (
                       <div className="space-y-2 pl-4">
                         {products.map((product) => (
                           <SheetClose asChild key={product.name}>
+                            {/* 保持原始链接样式 */}
                             <Link
                               href={product.href}
                               className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-100"
@@ -200,20 +195,20 @@ export default function NavBar() {
                     )}
                   </div>
 
-                  {/* 服务菜单 */}
+                  {/* 服务菜单（结构与产品菜单一致） */}
                   <div className="space-y-2">
                     <button
                       onClick={() => toggleMobileMenu('services')}
                       className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
                     >
                       <span className="font-medium">服务</span>
-                      {mobileMenuState.services ? (
+                      {activeMenu === 'services' ? (
                         <ChevronUp className="h-5 w-5 text-gray-500" />
                       ) : (
                         <ChevronDown className="h-5 w-5 text-gray-500" />
                       )}
                     </button>
-                    {mobileMenuState.services && (
+                    {activeMenu === 'services' && (
                       <div className="space-y-2 pl-4">
                         {services.map((service) => (
                           <SheetClose asChild key={service.name}>
@@ -235,20 +230,20 @@ export default function NavBar() {
                     )}
                   </div>
 
-                  {/* 支持菜单 */}
+                  {/* 支持菜单（结构与产品菜单一致） */}
                   <div className="space-y-2">
                     <button
                       onClick={() => toggleMobileMenu('support')}
                       className="flex w-full items-center justify-between rounded-lg p-3 hover:bg-gray-100"
                     >
                       <span className="font-medium">支持</span>
-                      {mobileMenuState.support ? (
+                      {activeMenu === 'support' ? (
                         <ChevronUp className="h-5 w-5 text-gray-500" />
                       ) : (
                         <ChevronDown className="h-5 w-5 text-gray-500" />
                       )}
                     </button>
-                    {mobileMenuState.support && (
+                    {activeMenu === 'support' && (
                       <div className="space-y-2 pl-4">
                         {support.map((item) => (
                           <SheetClose asChild key={item.name}>
@@ -270,7 +265,7 @@ export default function NavBar() {
                     )}
                   </div>
 
-                  {/* 常规导航链接 */}
+                  {/* 常规导航链接（保持原始结构） */}
                   <div className="space-y-2">
                     {navigation.map((item) => (
                       <SheetClose asChild key={item.name}>
@@ -289,7 +284,7 @@ export default function NavBar() {
           </Sheet>
         </div>
 
-        {/* 桌面端导航 */}
+        {/* 桌面端导航（100%保留原始结构） */}
         <div className="hidden lg:flex lg:gap-x-12">
           {/* 产品菜单 */}
           <NavigationMenu>
@@ -408,7 +403,7 @@ export default function NavBar() {
           ))}
         </div>
 
-        {/* 右侧空白区域 */}
+        {/* 右侧空白区域（保持原始布局） */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end" />
       </nav>
     </header>

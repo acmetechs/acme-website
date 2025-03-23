@@ -174,7 +174,7 @@ export function BannerCarousel({
       </AnimatePresence>
 
       {/* 导航按钮 */}
-      <div className="absolute inset-0 flex items-center justify-between p-4">
+      <div className="absolute inset-0 flex items-center justify-between p-4 z-10">
         <Button
           variant="ghost"
           size="icon"
